@@ -44,22 +44,53 @@ void draw()
         float ray_y = Math.sin(Math.toRadians(ray_rotation));
         float ray_x = Math.cos(Math.toRadians(ray_rotation));
 
-        float initial_delta_y = (ray_y > 0) ? p.y_pos - Math.floor(p.y_pos / lev1.cell_size) * lev1.cell_size : 
-                                (ray_y < 0) ? p.y_pos - Math.floor(p.y_pos / lev1.cell_size) * lev1.cell_size - lev1.cell_size : 0;
-        float initial_delta_x = (ray_x > 0) ? Math.floor(p.x_pos / lev1.cell_size) * lev1.cell_size + lev1.cell_size - p.x_pos :
-                                (ray_x < 0) ? Math.floor(p.x_pos / lev1.cell_size) * lev1.cell_size - p.x_pos : 0;
+        // Change in y from player's position to first horizontal interception
+        float initial_horint_delta_y =  (ray_y > 0) ? p.y_pos - Math.floor(p.y_pos / lev1.cell_size) * lev1.cell_size : 
+                                        (ray_y < 0) ? p.y_pos - Math.floor(p.y_pos / lev1.cell_size) * lev1.cell_size - lev1.cell_size : 0;
+        // Change in x from player's position to first vertical interception
+        float initial_verint_delta_x =  (ray_x > 0) ? Math.floor(p.x_pos / lev1.cell_size) * lev1.cell_size + lev1.cell_size - p.x_pos :
+                                        (ray_x < 0) ? Math.floor(p.x_pos / lev1.cell_size) * lev1.cell_size - p.x_pos : 0;
 
         int horizontal_iteration = 1;
         int vertical_iteration = 1;
         while(true)
         {
-            float delta_y = initial_delta_y + cell_size * horizontal_iteration;
-            float x = delta_y / rotation_tangent;
-            float horizontal_interception_length = Math.sqrt(delta_y*delta_y + x*x)
+            float horint_delta_y = initial_horint_delta_y + lev1.cell_size * horizontal_iteration;
+            float horint_delta_x = horint_delta_y / rotation_tangent;
+            int horint_id = lev1.map[Math.floor((p.y_pos - horint_delta_y) / lev1.cell_size * lev1.map_width) 
+                                        + Math.floor((p.x_pos + horint_delta_x) / lev1.cell_size)];
 
-            float delta_x = initial_delta_x + cell_size * vertical_iteration;
-            float y = delta_x * rotation_tangent;
-            float vertical_interception_length = Math.sqrt(delta_x*delta_x + y*y);
+            float verint_delta_x = initial_verint_delta_x + lev1.cell_size * vertical_iteration;
+            float verint_delta_y = verint_delta_x * rotation_tangent;
+            int verint_id = lev1.map[Math.floor((p.y_pos - verint_delta_y) / lev1.cell_size * lev1.map_width)
+                                        + Math.floor((p.x_pos + verint_delta_x) / lev1.cell_size)];
+
+            if(horint_id == 0 && verint_id == 0)
+            {
+                continue;
+            }
+
+            float horint_length = Math.sqrt(Math.pow(horint_delta_y, 2) + Math.pow(horint_delta_x, 2));
+            float verint_length = Math.sqrt(Math.pow(verint_delta_y, 2) + Math.pow(verint_delta_x, 2));
+
+            if(horint_id != 0)
+            {
+                if(horint_length <= verint_length)
+                {
+                    // Calculate column height
+                    break;
+                }
+                vertical_iteration++;
+            }
+            if(verint_id != 0)
+            {
+                if(verint_length <= horint_length)
+                {
+                    // Calculate column height
+                    break;
+                }
+                horizontal_iteration++;
+            }
         }
     }
 }
