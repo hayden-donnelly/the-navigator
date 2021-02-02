@@ -23,7 +23,7 @@ void setup()
 
     lev1 = new Level();
     int[] placeholder = {   1, 1, 1, 1, 1, 1, 1, 1,
-                            1, 0, 0, 0, 0, 1, 1, 1,
+                            1, 1, 0, 0, 0, 1, 1, 1,
                             1, 0, 0, 0, 0, 0, 1, 1,
                             1, 0, 0, 0, 0, 0, 0, 1,
                             1, 0, 0, 0, 0, 0, 0, 1,
@@ -50,16 +50,8 @@ float rot_dir = 1;
 void draw()
 {
     p.rotation += rot_dir;
-    if(p.rotation > 185)
-    {
-        rot_dir = -1;
-    }
-    else if(p.rotation < 0)
-    {
-        rot_dir = 1;
-    }
 
-    //print(p.rotation + "\n");
+    p.rotation = (p.rotation > 360) ? p.rotation - 360 : p.rotation;
 
     background(255);
     fill(200);
@@ -68,10 +60,10 @@ void draw()
     // Iterate over every angle in player's FOV
     for(int i = -p.fov/2; i <= p.fov/2; i++)
     {
+        int magic_number = 0;
         float distance_to_wall = 0;
         float absolute_ray_angle = p.rotation + i;
         absolute_ray_angle = (absolute_ray_angle < 0) ? 360 + absolute_ray_angle : absolute_ray_angle;
-        print("\nray angle: " + absolute_ray_angle + "\n");
         float ray_y_sign = (float)Math.signum(Math.sin(Math.toRadians(absolute_ray_angle)));
         float ray_x_sign = (float)Math.signum(Math.cos(Math.toRadians(absolute_ray_angle)));
         float horint_angle = 0;
@@ -94,6 +86,8 @@ void draw()
 
                 // Upper delta
                 initial_horint_delta_y = (float)Math.abs(Math.floor(p.y_pos / lev1.cell_size) * lev1.cell_size - p.y_pos);
+
+                magic_number = -1;
             }
             else if(ray_y_sign < 0)
             {
@@ -103,6 +97,8 @@ void draw()
 
                 // Lower delta 
                 initial_horint_delta_y = (float)Math.abs((Math.floor(p.y_pos / lev1.cell_size) + 1) * lev1.cell_size - p.y_pos);
+
+                magic_number = 0;
             }
 
             // Right delta 
@@ -119,6 +115,8 @@ void draw()
 
                 // Upper delta
                 initial_horint_delta_y = (float)Math.abs(Math.floor(p.y_pos / lev1.cell_size) * lev1.cell_size - p.y_pos);
+
+                magic_number = -1;
             }
             else if(ray_y_sign < 0)
             {
@@ -128,6 +126,8 @@ void draw()
 
                 // Lower delta
                 initial_horint_delta_y = (float)Math.abs((Math.floor(p.y_pos / lev1.cell_size) + 1) * lev1.cell_size - p.y_pos);
+
+                magic_number = 0;
             }
 
             // Left delta
@@ -166,13 +166,13 @@ void draw()
             verint_delta_x *= ray_x_sign;
             verint_delta_y *= -ray_y_sign;
 
-            int horint_id_y = (int)Math.floor((p.y_pos + horint_delta_y) / lev1.cell_size - 1) * lev1.map_width;
+            int horint_id_y = (int)Math.floor((p.y_pos + horint_delta_y) / lev1.cell_size + magic_number) * lev1.map_width;
             int horint_id_x = (int)Math.floor((p.x_pos + horint_delta_x) / lev1.cell_size);
-            int horint_id = (horint_id_x >= 0 && horint_id_x <= lev1.map_width) ? lev1.map[horint_id_y + horint_id_x] : 0;
+            int horint_id = (horint_id_x >= 0 && horint_id_x < lev1.map_width && horint_id_y >= 0 && horint_id_y < lev1.map_area) ? lev1.map[horint_id_y + horint_id_x] : 0;
 
             int verint_id_y = (int)Math.floor((p.y_pos + verint_delta_y) / lev1.cell_size) * lev1.map_width;
             int verint_id_x = (int)Math.floor((p.x_pos + verint_delta_x + ray_x_sign) / lev1.cell_size);
-            int verint_id = (verint_id_y >= 0 && verint_id_y <= lev1.map_area) ? lev1.map[verint_id_y + verint_id_x] : 0;
+            int verint_id = (verint_id_x >= 0 && verint_id_x < lev1.map_width && verint_id_y >= 0 && verint_id_y < lev1.map_area) ? lev1.map[verint_id_y + verint_id_x] : 0;
 
             if(horint_id == 0 && verint_id == 0)
             {
@@ -188,8 +188,6 @@ void draw()
             {
                 if(horint_length <= verint_length || verint_length == 0)
                 {
-                    //print("horint: " + horint_length + "\n");
-                    print("horint\n");
                     distance_to_wall = (float)Math.cos(Math.toRadians(i)) * horint_length;
                     fill(0, 0, 255);
                     rect(700 + horint_delta_x*3, 500 + horint_delta_y*3, 10, 10);
@@ -201,18 +199,6 @@ void draw()
             {
                 if(verint_length <= horint_length || horint_length == 0)
                 {
-                    //print("verint: " + verint_length + "\n");
-                    print("verint\n");
-                    print("horint id: " + horint_id + "\n");
-                    print("verint id:" + (verint_id_x + verint_id_y) + "\n");
-                    print("horint length: " + horint_length + "\n");
-                    print("verint length: "+ verint_length + "\n");
-                    print("verint dy: " + verint_delta_y + "\n");
-                    print("verint dx: " + verint_delta_x + "\n");
-                    print("horint dy: " + horint_delta_y + "\n");
-                    print("horint dx: " + horint_delta_x + "\n");
-                    print("init horint dy: " + initial_horint_delta_y + "\n");
-                    print("horint id y: " + horint_id_y + "\n");
                     distance_to_wall = (float)Math.cos(Math.toRadians(i)) * verint_length;
                     fill(255, 0, 0);
                     rect(700 + verint_delta_x*3, 500 + verint_delta_y*3, 10, 10);
@@ -222,7 +208,6 @@ void draw()
             }
         }
 
-        print("wall dist: " + distance_to_wall +  "\n");
         float column_height = height - (distance_to_wall * 3);
         column_buffer.add(column_height);
     }
