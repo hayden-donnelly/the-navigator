@@ -14,9 +14,90 @@ class Level
 
     Level()
     {
-        // TODO: build write level generation algorithhm here
+        p = new Entity(); 
+        p.rotation = 30;
+        p.fov = 60;
 
-        int[] p2 = {    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        // Procedural level generation
+        map_width = 100;
+        map_height = 100;
+        map_area = map_width * map_height;
+        map = new int[map_area];
+        cell_size = 30;
+
+        int max_room_width = 10;
+        int min_room_width = 9;
+        int max_room_height = 10;
+        int min_room_height = 9;
+        int number_of_rooms = 10;
+
+        for(int i = 0; i < map_area; i++)
+        {
+            map[i] = 1;
+        }
+
+        int prev_room_center_x = -1;
+        int prev_room_center_y = -1;
+
+        for(int i = 0; i < number_of_rooms; i++)
+        {
+            int room_width = (int)random(min_room_width, max_room_width);
+            int room_height = (int)random(min_room_height, max_room_height);
+            int room_x = (int)random(1, map_width - room_width-1);
+            int room_y = (int)random(1, map_height - room_height-1);
+
+            for(int x = room_x; x < room_x + room_width; x++)
+            {
+                for(int y = room_y; y < room_y + room_height; y++)
+                {
+                    map[y * map_width + x] = 0;
+                }
+            }
+
+            // zero here
+
+            int room_center_x = room_x + room_width/2;
+            int room_center_y = room_y + room_height/2;
+
+            if(prev_room_center_x != -1)
+            {
+                // Connect current and previous rooms
+                int path_dir_x = (int)Math.signum(prev_room_center_x - room_center_x);
+                int path_dir_y = (int)Math.signum(prev_room_center_y - room_center_y);
+
+                for(int x = room_center_x; x != prev_room_center_x + path_dir_x; x += path_dir_x)
+                {
+                    map[room_center_y * map_width + x] = 0;
+                }
+
+                for(int y = room_center_y; y != prev_room_center_y + path_dir_y; y += path_dir_y)
+                {
+                    map[y * map_width + prev_room_center_x] = 0;
+                }
+            }
+            else
+            {
+                p.x_pos = room_center_x*cell_size;
+                p.y_pos = room_center_y*cell_size;
+            }
+
+            prev_room_center_x = room_center_x;
+            prev_room_center_y = room_center_y;
+        }
+
+        for(int x = 0; x < map_width; x++)
+        {
+            for(int y = 0; y < map_height; y++)
+            {
+                print(map[y * map_width + x] + " ");
+            }
+            print("\n");
+        }
+
+
+
+
+        /*int[] p2 = {  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
                         1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1,
                         1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1,
                         1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1,
@@ -31,13 +112,7 @@ class Level
         map_width = 18;
         map_height = 11;
         map_area = map_width * map_height;
-        cell_size = 20;
-
-        p = new Entity(); 
-        p.x_pos = 50;
-        p.y_pos = 90;
-        p.rotation = 30;
-        p.fov = 60;
+        cell_size = 20;*/
     }
 
     // Renders the entire level (map and entities) to the screen
@@ -46,15 +121,14 @@ class Level
         ArrayList<Float> map_buffer = render_map_to_buffer();
 
         noStroke();
-        background(34,32,53);
-        fill(87,82,103);
+        background(pal1.c1);
+        fill(pal1.c2);
         rect(640, 540, 1280, 360);
-        fill(200);
 
         // Draw buffer
+        fill(pal1.c3);
         for(int i = 0; i <= p.fov*2; i++)
         {
-            fill(141,137,128);
             rect(1280 - 11*i, height/2, 12, map_buffer.get(i));
         }
     }
