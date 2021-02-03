@@ -1,8 +1,9 @@
 enum Game_States
 {
     MAIN_MENU,
-    IN_GAME,
     HOW_TO_PLAY,
+    LEVEL_SELECT,
+    IN_GAME,
     GAME_OVER,
     // Selecting this game state returns the game to the previous game state
     BACK
@@ -16,7 +17,7 @@ class Game_Manager
     Game_Manager()
     {
         current_game_state = Game_States.MAIN_MENU;
-        previous_game_state = Game_States.HOW_TO_PLAY;
+        previous_game_state = Game_States.LEVEL_SELECT;
     }
 
     // Sets new game state
@@ -95,6 +96,8 @@ class Button
     // Checks if this button has been clicked on
     boolean check_click()
     {
+        print("\n" + mouseX);
+        print("\n" + bg_x_corner);
         if(mouseX >= bg_x_corner && mouseX <= bg_x_corner+bg_w && mouseY >= bg_y_corner && mouseY <= bg_y_corner+bg_h)
         {
             if(target_game_state != Game_States.BACK)
@@ -112,14 +115,13 @@ class Button
 }
 Button[] main_menu_buttons;
 Button[] how_to_play_buttons;
+Button[] level_select_buttons;
 
 PFont title_font;
 
 void setup()
 {
     size(1280, 720);
-    rectMode(CENTER);
-    lev1 = new Level();
     
     game = new Game_Manager();
     game.set_game_state(Game_States.MAIN_MENU);
@@ -128,11 +130,8 @@ void setup()
     color ui_text_color = color(5,217,232);
 
     main_menu_buttons = new Button[2];
-    main_menu_buttons[0] = new Button("Play", 640, 200, 300, 50, 30, ui_bg_color, ui_text_color, Game_States.IN_GAME);
+    main_menu_buttons[0] = new Button("Level Select", 640, 200, 300, 50, 30, ui_bg_color, ui_text_color, Game_States.LEVEL_SELECT);
     main_menu_buttons[1] = new Button("How to Play", 640, 300, 300, 50, 30, ui_bg_color, ui_text_color, Game_States.HOW_TO_PLAY);
-
-    how_to_play_buttons = new Button[1];
-    how_to_play_buttons[0] = new Button("Back", 1080, 40, 150, 80, 30, ui_bg_color, ui_text_color, Game_States.BACK);
 
     title_font = createFont("Orenasolomayusculas.ttf", 32);
 }
@@ -142,9 +141,6 @@ void draw()
     switch(game.current_game_state)
     {
         case IN_GAME:
-            lev1.p.rotation += rot_dir;
-            lev1.p.rotation = (lev1.p.rotation > 360) ? lev1.p.rotation - 360 : lev1.p.rotation;
-            lev1.render_level();
             break;
         case MAIN_MENU:
             background(1,1,43);
@@ -153,13 +149,16 @@ void draw()
             fill(5,217,232);
             stroke(255,42,109);
             textFont(title_font);
-            text("The Impostor", 640, 100);
+            text("Game Title", 640, 100);
 
             game.render_ui(main_menu_buttons);
             break;
         case HOW_TO_PLAY:
-            background(1,1,43);
             game.render_ui(how_to_play_buttons);
+            break;
+        case LEVEL_SELECT:
+            background(255);
+            //game.render_ui(level_select_buttons);
             break;
     }
 }
@@ -176,6 +175,9 @@ void mousePressed()
             break;
         case HOW_TO_PLAY:
             game.update_ui(how_to_play_buttons);
+            break;
+        case LEVEL_SELECT:
+            game.update_ui(level_select_buttons);
             break;
     } 
 }
