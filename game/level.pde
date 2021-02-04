@@ -5,13 +5,26 @@ class Level
     int[] map;
     int map_width, map_height, map_area, cell_size;
 
+    class Renderable implements Comparable<Renderable>
+    {
+        float x, w, h, distance;
+        color clr;
+
+        @Override 
+        public int compareTo(Renderable compares_to)
+        {
+            return (int)(this.distance - compares_to.distance);
+        }
+    }
+
     class Entity
     {
-        float x_pos, y_pos, fov;
+        float x_pos, y_pos, fov, half_fov;
         float move_forward, move_right;
         float rotation;
     }
     Entity p;
+    ArrayList<Entity> enemies;
 
     Level()
     {
@@ -20,6 +33,7 @@ class Level
         p.move_forward = 0;
         p.move_right = 0;
         p.fov = 60;
+        p.half_fov = p.fov/2;
 
         // Procedural level generation
         map_width = 100;
@@ -85,21 +99,13 @@ class Level
             prev_room_center_x = room_center_x;
             prev_room_center_y = room_center_y;
         }
-
-        /*for(int x = 0; x < map_width; x++)
-        {
-            for(int y = 0; y < map_height; y++)
-            {
-                print(map[y * map_width + x] + " ");
-            }
-            print("\n");
-        }*/
     }
 
     // Renders the entire level (map and entities) to the screen
     void render_level()
     {
-        ArrayList<Float> map_buffer = render_map_to_buffer();
+        ArrayList<Renderable> map_buffer = render_map_to_buffer();
+        //ArrayList<Renderable> enemy_buffer = render_enemies_to_buffer();
 
         noStroke();
         background(pal1.c1);
@@ -107,19 +113,22 @@ class Level
         rect(640, 540, 1280, 360);
 
         // Draw buffer
-        fill(pal1.c3);
         for(int i = 0; i <= p.fov*2; i++)
         {
-            rect(1280 - 11*i, height/2, 12, map_buffer.get(i));
+            Renderable current_renderable = map_buffer.get(i);
+            fill(current_renderable.clr);
+            rect(current_renderable.x, height/2, current_renderable.w, current_renderable.h);
         }
     }
 
-    ArrayList<Float> render_map_to_buffer()
+    ArrayList<Renderable> render_map_to_buffer()
     {
-        ArrayList<Float> column_buffer = new ArrayList<Float>();
+        ArrayList<Renderable> column_buffer = new ArrayList<Renderable>();
         // Iterate over every angle in player's FOV
+        int column_number = 0;
         for(float i = -p.fov/2; i <= p.fov/2; i+=0.5)
         {
+            column_number++;
             int magic_number = 0;
             float distance_to_wall = 0;
             float absolute_ray_angle = p.rotation + i;
@@ -264,11 +273,92 @@ class Level
                 }
             }
 
-            float column_height = 20000/distance_to_wall;
-            column_buffer.add(column_height);
+            Renderable new_column = new Renderable();
+            new_column.x = 1280 - 11 * column_number;
+            new_column.w = 12;
+            new_column.h = 20000/distance_to_wall;
+            new_column.distance = distance_to_wall;
+            new_column.clr = pal1.c3;
+            column_buffer.add(new_column);
         }
 
         return column_buffer;
+    }
+
+    ArrayList<Renderable> render_enemies_to_buffer()
+    {
+        ArrayList<Renderable> enemy_buffer = new ArrayList<Renderable>();
+
+        for(int i = 0; i < enemies.size(); i++)
+        {
+            Entity current_enemy = enemies.get(i);
+            float offset_x = current_enemy.x_pos - p.x_pos;
+            float offset_y = p.y_pos - current_enemy.y_pos;
+
+            float absolute_offset_angle = (offset_x != 0) ? (float)Math.atan(offset_y/offset_x) : 0;
+            float offset_angle = 0;
+
+            if(offset_x > 0)
+            {
+                if(offset_y > 0)
+                {
+                    // Quadrant 1
+                    offset_angle = absolute_offset_angle;
+                }
+                else if(offset_y < 0)
+                {
+                    // Quadrant 4
+                    offset_angle = 360 - absolute_offset_angle;
+                }
+                else
+                {
+                    offset_angle = 0;
+                }
+            }
+            else if(offset_x < 0)
+            {
+                if(offset_y > 0)
+                {
+                    // Quadrant 2
+                    offset_angle = 180 - absolute_offset_angle;
+                }
+                else if(offset_y < 0)
+                {
+                    // Quadrant 3
+                    offset_angle = 180 + absolute_offset_angle;
+                }
+                else
+                {
+                    offset_angle = 180;
+                }
+            }
+            else
+            {
+                if(offset_y > 0)
+                {
+                    offset_angle = 90;
+                }
+                else if(offset_y < 0)
+                {
+                    offset_angle = 270;
+                }
+            }
+
+            float offset_from_player1 = (float)Math.abs(offset_angle - p.rotation);
+            float offset_from_player2 = (float)Math.abs(offset_angle - 360 - p.rotation);
+            //float final_offset_from_player = (offset_from_player1 <= p.half_fov && offset_from_player1 <= offset_from_player2) ? offset_from_player1 :
+            //                                    (offset_from_player2)
+            
+
+            if(offset_from_player1 <= p.half_fov || offset_from_player2 <= p.half_fov)
+            {
+                float offset_length = (float)Math.sqrt(Math.pow(offset_x, 2) + Math.pow(offset_y, 2));
+                Renderable new_enemy = new Renderable();
+                //new_enemy.distance = offset_length * (float)Math.cos(Math.toRadians())
+            }
+        }
+
+        return enemy_buffer;
     }
 }
 Level lev1;
