@@ -35,8 +35,8 @@ class Level
         p.half_fov = p.fov/2;
 
         // Procedural level generation
-        map_width = 75;
-        map_height = 75;
+        map_width = 100;
+        map_height = 100;
         map_area = map_width * map_height;
         map = new int[map_area];
         cell_size = 30;
@@ -45,7 +45,7 @@ class Level
         int min_room_width = 9;
         int max_room_height = 10;
         int min_room_height = 9;
-        int number_of_rooms = 12;
+        int number_of_rooms = 2;
 
         for(int i = 0; i < map_area; i++)
         {
