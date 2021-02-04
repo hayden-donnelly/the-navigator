@@ -42,9 +42,9 @@ class Level
         cell_size = 30;
 
         int max_room_width = 10;
-        int min_room_width = 9;
+        int min_room_width = 5;
         int max_room_height = 10;
-        int min_room_height = 9;
+        int min_room_height = 5;
         int number_of_rooms = 13;
 
         for(int i = 0; i < map_area; i++)
