@@ -179,7 +179,7 @@ void draw()
             }
 
             // Player rotation
-            lev1.p.rotation += rot_dir;
+            lev1.p.rotation += lev1.p.rot_dir;
             lev1.p.rotation = (lev1.p.rotation > 360) ? lev1.p.rotation - 360 : lev1.p.rotation;
 
             // Player movement
@@ -286,11 +286,11 @@ void keyPressed()
     }
     else if(keyCode == LEFT)
     {
-        rot_dir = 1;
+        lev1.p.rot_dir = 1;
     }
     else if(keyCode == RIGHT)
     {
-        rot_dir = -1;
+        lev1.p.rot_dir = -1;
     }
 }
 
@@ -304,8 +304,8 @@ void keyReleased()
     {
         lev1.p.move_right = 0;
     }
-    else if((keyCode == LEFT && rot_dir == 1) || (keyCode == RIGHT && rot_dir == -1))
+    else if((keyCode == LEFT && lev1.p.rot_dir == 1) || (keyCode == RIGHT && lev1.p.rot_dir == -1))
     {
-        rot_dir = 0;
+        lev1.p.rot_dir = 0;
     }
 }
