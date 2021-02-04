@@ -7,7 +7,8 @@ class Level
 
     class Entity
     {
-        int x_pos, y_pos, fov;
+        float x_pos, y_pos, fov;
+        float move_forward, move_right;
         float rotation;
     }
     Entity p;
@@ -16,6 +17,8 @@ class Level
     {
         p = new Entity(); 
         p.rotation = 30;
+        p.move_forward = 0;
+        p.move_right = 0;
         p.fov = 60;
 
         // Procedural level generation
@@ -54,8 +57,6 @@ class Level
                 }
             }
 
-            // zero here
-
             int room_center_x = room_x + room_width/2;
             int room_center_y = room_y + room_height/2;
 
@@ -85,34 +86,14 @@ class Level
             prev_room_center_y = room_center_y;
         }
 
-        for(int x = 0; x < map_width; x++)
+        /*for(int x = 0; x < map_width; x++)
         {
             for(int y = 0; y < map_height; y++)
             {
                 print(map[y * map_width + x] + " ");
             }
             print("\n");
-        }
-
-
-
-
-        /*int[] p2 = {  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                        1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1,
-                        1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1,
-                        1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1,
-                        1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-                        1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-                        1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1,
-                        1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1,
-                        1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1,
-                        1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1,
-                        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
-        map = p2;
-        map_width = 18;
-        map_height = 11;
-        map_area = map_width * map_height;
-        cell_size = 20;*/
+        }*/
     }
 
     // Renders the entire level (map and entities) to the screen
@@ -291,4 +272,4 @@ class Level
     }
 }
 Level lev1;
-float rot_dir = 0.5;
+float rot_dir = 0;

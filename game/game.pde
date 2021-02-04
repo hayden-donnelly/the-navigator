@@ -152,68 +152,6 @@ void setup()
     how_to_play_buttons[0] = new Button("Back", 1080, 40, 150, 80, "Orenasolomayusculas.ttf", 23, ui_bg_color, ui_text_color, Game_States.BACK);
 
     title_font = createFont("Orenasolomayusculas.ttf", 40);
-
-
-
-
-
-
-    // Level generation
-    int map_width = 50;
-    int map_height = 50;
-    int max_room_width = 10;
-    int min_room_width = 5;
-    int max_room_height = 10;
-    int min_room_height = 5;
-    int area = width * height;
-    int number_of_rooms = 20;
-    int map[] = new int[area];
-    
-    for(int i = 0; i < area; i++)
-    {
-        map[i] = 1;
-    }
-
-    int prev_room_center_x = -1;
-    int prev_room_center_y = -1;
-
-    for(int i = 0; i < number_of_rooms; i++)
-    {
-        int room_width = (int)random(min_room_width, max_room_width);
-        int room_height = (int)random(min_room_height, max_room_height);
-        int room_x = (int)random(1, map_width - room_width-1);
-        int room_y = (int)random(1, map_height - room_height-1);
-
-        for(int x = room_x; x < room_x + room_width; x++)
-        {
-            for(int y = room_y; y < room_y + room_height; y++)
-            {
-                map[y * map_width + x] = 0;
-            }
-        }
-
-        int room_center_x = room_x + room_width/2;
-        int room_center_y = room_y + room_height/2;
-
-        if(prev_room_center_x != -1)
-        {
-            int path_dir_x = (int)Math.signum(prev_room_center_x - room_center_x);
-            int path_dir_y = (int)Math.signum(prev_room_center_y - room_center_y);
-
-            for(int x = room_center_x; x != prev_room_center_x + path_dir_x; x += path_dir_x)
-            {
-                map[room_center_y * map_width + x] = 0;
-            }
-
-            for(int y = room_center_y; y != prev_room_center_y + path_dir_y; y += path_dir_y)
-            {
-                map[y * map_width + prev_room_center_x] = 0;
-            }
-        }
-
-        prev_room_center_x = room_center_x;
-        prev_room_center_y = room_center_y;
-    }
 }
 
 void draw()
@@ -221,19 +159,27 @@ void draw()
     switch(game.current_game_state)
     {
         case IN_GAME:
+
+            // Player rotation
             lev1.p.rotation += rot_dir;
             lev1.p.rotation = (lev1.p.rotation > 360) ? lev1.p.rotation - 360 : lev1.p.rotation;
+
+            // Player movement
+            lev1.p.x_pos += (float)Math.cos(Math.toRadians(lev1.p.rotation)) * lev1.p.move_forward;
+            lev1.p.y_pos -= (float)Math.sin(Math.toRadians(lev1.p.rotation)) * lev1.p.move_forward;
+            lev1.p.x_pos += (float)Math.cos(Math.toRadians(lev1.p.rotation+90)) * lev1.p.move_right;
+            lev1.p.y_pos -= (float)Math.sin(Math.toRadians(lev1.p.rotation+90)) * lev1.p.move_right;
+
+            // Render
             lev1.render_level();
             break;
         case MAIN_MENU:
             background(pal1.c1);
             textAlign(CENTER);
-            //textSize(50);
             fill(pal1.c4);
             stroke(pal1.c4);
             textFont(title_font);
             text("The Impostor", 640, 100);
-
             game.render_ui(main_menu_buttons);
             break;
         case HOW_TO_PLAY:
@@ -257,4 +203,48 @@ void mousePressed()
             game.update_ui(how_to_play_buttons);
             break;
     } 
+}
+
+void keyPressed()
+{
+    if(key == 'w')
+    {
+        lev1.p.move_forward = 1;
+    }
+    else if(key == 's')
+    {
+        lev1.p.move_forward = -1;
+    }
+    else if(key == 'a')
+    {
+        lev1.p.move_right = 1;
+    }
+    else if(key == 'd')
+    {
+        lev1.p.move_right = -1;
+    }
+    else if(keyCode == LEFT)
+    {
+        rot_dir = 1;
+    }
+    else if(keyCode == RIGHT)
+    {
+        rot_dir = -1;
+    }
+}
+
+void keyReleased()
+{
+    if((key == 'w' && lev1.p.move_forward == 1) || (key == 's' && lev1.p.move_forward == -1))
+    {
+        lev1.p.move_forward = 0;
+    }
+    else if((key == 'a' && lev1.p.move_right == 1) || (key == 'd' && lev1.p.move_right == -1))
+    {
+        lev1.p.move_right = 0;
+    }
+    else if((keyCode == LEFT && rot_dir == 1) || (keyCode == RIGHT && rot_dir == -1))
+    {
+        rot_dir = 0;
+    }
 }
