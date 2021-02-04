@@ -19,7 +19,7 @@ class Level
 
     class Entity
     {
-        float x_pos, y_pos, fov, half_fov;
+        float x_pos, y_pos, fov, half_fov, rot_dir;
         float move_forward, move_right;
         float rotation;
     }
@@ -45,7 +45,7 @@ class Level
         int min_room_width = 9;
         int max_room_height = 10;
         int min_room_height = 9;
-        int number_of_rooms = 2;
+        int number_of_rooms = 13;
 
         for(int i = 0; i < map_area; i++)
         {
@@ -297,4 +297,4 @@ class Level
     }
 }
 Level lev1;
-float rot_dir = 0;
+//float rot_dir = 0;
