@@ -179,11 +179,21 @@ void draw()
             fill(pal1.c4);
             stroke(pal1.c4);
             textFont(title_font);
-            text("The Impostor", 640, 100);
+            text("The Impostor (currently unfinished)", 640, 100);
             game.render_ui(main_menu_buttons);
             break;
         case HOW_TO_PLAY:
             background(pal1.c1);
+            text("\'W\' to Move Forward", 640, 100);
+            text("\'S\' to Move Backward", 640, 150);
+            text("\'A\' to Move Left", 640, 200);
+            text("\'D\' to Move Right", 640, 250);
+            text("\'Left Arrow\' to Rotate Left", 640, 300);
+            text("\'Right Arrow\' to Rotate Right", 640, 350);
+            text("\'Spacebar\' to Shoot", 640, 400);
+            text("Red enemies will damage you if you get too close", 640, 450);
+            text("Shoot enemies to earn points", 640, 500);
+
             game.render_ui(how_to_play_buttons);
             break;
     }
