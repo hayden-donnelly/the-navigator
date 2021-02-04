@@ -24,7 +24,6 @@ class Level
         float rotation;
     }
     Entity p;
-    ArrayList<Entity> enemies;
 
     Level()
     {
@@ -36,8 +35,8 @@ class Level
         p.half_fov = p.fov/2;
 
         // Procedural level generation
-        map_width = 100;
-        map_height = 100;
+        map_width = 75;
+        map_height = 75;
         map_area = map_width * map_height;
         map = new int[map_area];
         cell_size = 30;
@@ -46,7 +45,7 @@ class Level
         int min_room_width = 9;
         int max_room_height = 10;
         int min_room_height = 9;
-        int number_of_rooms = 10;
+        int number_of_rooms = 12;
 
         for(int i = 0; i < map_area; i++)
         {
@@ -99,13 +98,15 @@ class Level
             prev_room_center_x = room_center_x;
             prev_room_center_y = room_center_y;
         }
+
+        // Portal
+        map[prev_room_center_x + prev_room_center_y * map_width] = 2;
     }
 
     // Renders the entire level (map and entities) to the screen
     void render_level()
     {
         ArrayList<Renderable> map_buffer = render_map_to_buffer();
-        //ArrayList<Renderable> enemy_buffer = render_enemies_to_buffer();
 
         noStroke();
         background(pal1.c1);
@@ -223,6 +224,7 @@ class Level
             // Find ray/grid interception points
             int horizontal_iteration = 0;
             int vertical_iteration = 0;
+            int final_id = 0;
             while(true)
             {
                 float horint_delta_y = initial_horint_delta_y + cell_size * horizontal_iteration;
@@ -258,6 +260,7 @@ class Level
                     if(horint_length <= verint_length || verint_length == 0)
                     {
                         distance_to_wall = (float)Math.cos(Math.toRadians(i)) * horint_length;
+                        final_id = horint_id;
                         break;
                     }
                     vertical_iteration++;
@@ -267,6 +270,7 @@ class Level
                     if(verint_length <= horint_length || horint_length == 0)
                     {
                         distance_to_wall = (float)Math.cos(Math.toRadians(i)) * verint_length;
+                        final_id = verint_id;
                         break;
                     }
                     horizontal_iteration++;
@@ -278,87 +282,18 @@ class Level
             new_column.w = 12;
             new_column.h = 20000/distance_to_wall;
             new_column.distance = distance_to_wall;
-            new_column.clr = pal1.c3;
+            if(final_id == 1)
+            {
+                new_column.clr = pal1.c3;
+            }
+            else
+            {
+                new_column.clr = pal1.c5;
+            }
             column_buffer.add(new_column);
         }
 
         return column_buffer;
-    }
-
-    ArrayList<Renderable> render_enemies_to_buffer()
-    {
-        ArrayList<Renderable> enemy_buffer = new ArrayList<Renderable>();
-
-        for(int i = 0; i < enemies.size(); i++)
-        {
-            Entity current_enemy = enemies.get(i);
-            float offset_x = current_enemy.x_pos - p.x_pos;
-            float offset_y = p.y_pos - current_enemy.y_pos;
-
-            float absolute_offset_angle = (offset_x != 0) ? (float)Math.atan(offset_y/offset_x) : 0;
-            float offset_angle = 0;
-
-            if(offset_x > 0)
-            {
-                if(offset_y > 0)
-                {
-                    // Quadrant 1
-                    offset_angle = absolute_offset_angle;
-                }
-                else if(offset_y < 0)
-                {
-                    // Quadrant 4
-                    offset_angle = 360 - absolute_offset_angle;
-                }
-                else
-                {
-                    offset_angle = 0;
-                }
-            }
-            else if(offset_x < 0)
-            {
-                if(offset_y > 0)
-                {
-                    // Quadrant 2
-                    offset_angle = 180 - absolute_offset_angle;
-                }
-                else if(offset_y < 0)
-                {
-                    // Quadrant 3
-                    offset_angle = 180 + absolute_offset_angle;
-                }
-                else
-                {
-                    offset_angle = 180;
-                }
-            }
-            else
-            {
-                if(offset_y > 0)
-                {
-                    offset_angle = 90;
-                }
-                else if(offset_y < 0)
-                {
-                    offset_angle = 270;
-                }
-            }
-
-            float offset_from_player1 = (float)Math.abs(offset_angle - p.rotation);
-            float offset_from_player2 = (float)Math.abs(offset_angle - 360 - p.rotation);
-            //float final_offset_from_player = (offset_from_player1 <= p.half_fov && offset_from_player1 <= offset_from_player2) ? offset_from_player1 :
-            //                                    (offset_from_player2)
-            
-
-            if(offset_from_player1 <= p.half_fov || offset_from_player2 <= p.half_fov)
-            {
-                float offset_length = (float)Math.sqrt(Math.pow(offset_x, 2) + Math.pow(offset_y, 2));
-                Renderable new_enemy = new Renderable();
-                //new_enemy.distance = offset_length * (float)Math.cos(Math.toRadians())
-            }
-        }
-
-        return enemy_buffer;
     }
 }
 Level lev1;
