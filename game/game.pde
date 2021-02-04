@@ -112,6 +112,7 @@ class Button
 }
 Button[] main_menu_buttons;
 Button[] how_to_play_buttons;
+Button[] game_over_buttons;
 
 class Color_Palette
 {
@@ -122,8 +123,8 @@ class Color_Palette
     color c5;
 }
 Color_Palette pal1;
-
 PFont title_font;
+PFont score_font;
 
 void setup()
 {
@@ -145,20 +146,37 @@ void setup()
     color ui_text_color = color(pal1.c4);
 
     main_menu_buttons = new Button[2];
-    main_menu_buttons[0] = new Button("Play", 640, 200, 300, 50, "Orenasolomayusculas.ttf", 23, ui_bg_color, ui_text_color, Game_States.IN_GAME);
-    main_menu_buttons[1] = new Button("How to Play", 640, 300, 300, 50, "Orenasolomayusculas.ttf", 23, ui_bg_color, ui_text_color, Game_States.HOW_TO_PLAY);
+    main_menu_buttons[0] = new Button("Play", 640, 200, 300, 50, "conthrax-sb.ttf", 23, ui_bg_color, ui_text_color, Game_States.IN_GAME);
+    main_menu_buttons[1] = new Button("How to Play", 640, 300, 300, 50, "conthrax-sb.ttf", 23, ui_bg_color, ui_text_color, Game_States.HOW_TO_PLAY);
 
     how_to_play_buttons = new Button[1];
-    how_to_play_buttons[0] = new Button("Back", 1080, 40, 150, 80, "Orenasolomayusculas.ttf", 23, ui_bg_color, ui_text_color, Game_States.BACK);
+    how_to_play_buttons[0] = new Button("Back", 1080, 40, 150, 80, "conthrax-sb.ttf", 23, ui_bg_color, ui_text_color, Game_States.BACK);
 
-    title_font = createFont("Orenasolomayusculas.ttf", 40);
+    game_over_buttons = new Button[2];
+    game_over_buttons[0] = new Button("Play Again", 640, 350, 300, 50, "conthrax-sb.ttf", 23, ui_bg_color, ui_text_color, Game_States.IN_GAME);
+    game_over_buttons[1] = new Button("Main Menu", 640, 450, 300, 50, "conthrax-sb.ttf", 23, ui_bg_color, ui_text_color, Game_States.MAIN_MENU);
+
+    title_font = createFont("conthrax-sb.ttf", 40);
+    score_font = createFont("conthrax-sb.ttf", 25);
 }
+
+int score = 0;
+int best_score = 1000000;
+String game_over_message = "";
+int score_add_counter = 0;
 
 void draw()
 {
     switch(game.current_game_state)
     {
         case IN_GAME:
+            
+            score_add_counter++;
+            if(score_add_counter >= 60)
+            {
+                score_add_counter = 0;
+                score++;
+            }
 
             // Player rotation
             lev1.p.rotation += rot_dir;
@@ -170,8 +188,23 @@ void draw()
             lev1.p.x_pos += (float)Math.cos(Math.toRadians(lev1.p.rotation+90)) * lev1.p.move_right;
             lev1.p.y_pos -= (float)Math.sin(Math.toRadians(lev1.p.rotation+90)) * lev1.p.move_right;
 
+            int map_id_x = (int)(lev1.p.x_pos / lev1.cell_size);
+            int map_id_y = (int)(lev1.p.y_pos / lev1.cell_size);
+            if(lev1.map[map_id_x + map_id_y * lev1.map_width] == 2)
+            {
+                game.set_game_state(Game_States.GAME_OVER);
+                if(score < best_score)
+                {
+                    game_over_message = "NEW HIGH SCORE!";
+                    best_score = score;
+                }
+            }
+
             // Render
             lev1.render_level();
+
+            textFont(score_font);
+            text("Score: " + score, 640, 30);
             break;
         case MAIN_MENU:
             background(pal1.c1);
@@ -179,7 +212,7 @@ void draw()
             fill(pal1.c4);
             stroke(pal1.c4);
             textFont(title_font);
-            text("The Impostor (currently unfinished)", 640, 100);
+            text("The Navigator", 640, 100);
             game.render_ui(main_menu_buttons);
             break;
         case HOW_TO_PLAY:
@@ -190,11 +223,21 @@ void draw()
             text("\'D\' to Move Right", 640, 250);
             text("\'Left Arrow\' to Rotate Left", 640, 300);
             text("\'Right Arrow\' to Rotate Right", 640, 350);
-            text("\'Spacebar\' to Shoot", 640, 400);
-            text("Red enemies will damage you if you get too close", 640, 450);
-            text("Shoot enemies to earn points", 640, 500);
+            text("Navigate to through the maze and reach the turquoise portal to win!", 640, 450);
 
             game.render_ui(how_to_play_buttons);
+            break;
+        case GAME_OVER:
+            background(pal1.c1);
+            fill(pal1.c4);
+            textFont(title_font);
+            text("GAME OVER", 640, 100);
+            textFont(score_font);
+            text(game_over_message, 640, 150);
+            text("Score: " + score, 640, 200);
+            text("Best Score: " + best_score, 640, 250);
+            stroke(pal1.c4);
+            game.render_ui(game_over_buttons);
             break;
     }
 }
@@ -211,6 +254,14 @@ void mousePressed()
             break;
         case HOW_TO_PLAY:
             game.update_ui(how_to_play_buttons);
+            break;
+        case GAME_OVER:
+            // generate new level
+            lev1 = new Level();
+            // Reset score
+            game_over_message = "";
+            score = 0;
+            game.update_ui(game_over_buttons);
             break;
     } 
 }
