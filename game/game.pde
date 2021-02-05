@@ -183,10 +183,16 @@ void draw()
             lev1.p.rotation = (lev1.p.rotation > 360) ? lev1.p.rotation - 360 : lev1.p.rotation;
 
             // Player movement
-            lev1.p.x_pos += (float)Math.cos(Math.toRadians(lev1.p.rotation)) * lev1.p.move_forward;
+            float forward_x_move = (float)Math.cos(Math.toRadians(lev1.p.rotation)) * lev1.p.move_forward;
+            float forward_y_move = (float)Math.sin(Math.toRadians(lev1.p.rotation)) * lev1.p.move_forward;
+            float right_x_move = (float)Math.cos(Math.toRadians(lev1.p.rotation+90)) * lev1.p.move_right;
+            float right_y_move = (float)Math.sin(Math.toRadians(lev1.p.rotation+90)) * lev1.p.move_right;
+            lev1.player_movement_collision(forward_x_move + right_x_move, forward_y_move + right_y_move);
+
+            /*lev1.p.x_pos += (float)Math.cos(Math.toRadians(lev1.p.rotation)) * lev1.p.move_forward;
             lev1.p.y_pos -= (float)Math.sin(Math.toRadians(lev1.p.rotation)) * lev1.p.move_forward;
             lev1.p.x_pos += (float)Math.cos(Math.toRadians(lev1.p.rotation+90)) * lev1.p.move_right;
-            lev1.p.y_pos -= (float)Math.sin(Math.toRadians(lev1.p.rotation+90)) * lev1.p.move_right;
+            lev1.p.y_pos -= (float)Math.sin(Math.toRadians(lev1.p.rotation+90)) * lev1.p.move_right;*/
 
             int map_id_x = (int)(lev1.p.x_pos / lev1.cell_size);
             int map_id_y = (int)(lev1.p.y_pos / lev1.cell_size);
