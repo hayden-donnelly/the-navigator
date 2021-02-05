@@ -293,73 +293,7 @@ class Level
     // Modifies movement vector so the player can never clip through walls
     void player_movement_collision(float move_x, float move_y)
     {
-        /*// This algorithm has the potential to break if the magnitude
-        // of a player's movement is greater than the size of a tile
-        float new_x = p.x_pos + move_x;
-        float new_y = p.y_pos + move_y;
-
-        int move_sign_x = (int)Math.signum(move_x);
-        int move_sign_y = (int)Math.signum(move_y);
-
-        int new_cell_id_x = (int)Math.floor(new_x / cell_size);
-        int new_cell_id_y = (int)Math.floor(new_y / cell_size) * map_width;
-        int new_cell_id = map[new_cell_id_x + new_cell_id_y];
-
-        if(new_cell_id == 1)
-        {
-            // Collision occured
-            float vercol_delta_x = 0;
-            float vercol_delta_y = 0;
-            float vercol_length = 0;
-            float horcol_delta_x = 0;
-            float horcol_delta_y = 0;
-            float horcol_length = 0;
-
-            // Vertical interception
-            if(move_sign_x > 0)
-            {
-                vercol_delta_x = (float)Math.abs(new_cell_id_x * cell_size - p.x_pos);
-            }
-            else if(move_sign_x < 0)
-            {
-                vercol_delta_x = (float)Math.abs((new_cell_id_x + 1) * cell_size - p.x_pos);
-            }
-            vercol_delta_y = (vercol_delta_x != 0) ? move_y / (move_x / (move_x - vercol_delta_x)) : 0;
-            vercol_length = (float)Math.sqrt(Math.pow(vercol_delta_x, 2) + Math.pow(vercol_delta_y, 2));
-
-            // Horizontal interception
-            if(move_sign_y > 0)
-            {
-                horcol_delta_y = (float)Math.abs((new_cell_id_y / map_width + 1) * cell_size - p.y_pos); 
-            }
-            else if(move_sign_y < 0)
-            {
-                horcol_delta_y = (float)Math.abs(new_cell_id_y / map_width * cell_size - p.y_pos);
-            }
-            horcol_delta_x = (horcol_delta_y != 0) ? move_x / (move_y / (move_y - horcol_delta_y)) : 0;
-            horcol_length = (float)Math.sqrt(Math.pow(vercol_delta_x, 2) + Math.pow(vercol_delta_y, 2));
-
-            if(horcol_length <= vercol_length || vercol_length == 0)
-            {
-                print("horcol\n");
-                print(horcol_delta_x + "\n");
-                print(horcol_delta_y + "\n");
-                move_x -= horcol_delta_x * move_sign_x;
-                move_y -= horcol_delta_y * move_sign_y;
-            }
-            else if(vercol_length <= horcol_length || horcol_length == 0)
-            {
-                print("vercol\n");
-                print(vercol_delta_x + "\n");
-                print(vercol_delta_y + "\n");
-                move_x -= vercol_delta_x * move_sign_x;
-                move_y -= vercol_delta_y * move_sign_y;
-            }
-        }
-
-        p.x_pos += move_x;
-        p.y_pos -= move_y;*/
-
+        // This only works if the magnitude of the player's movement per frame is very small
         float new_x = p.x_pos + move_x;
         float new_y = p.y_pos - move_y;
 
