@@ -1,2 +1,4 @@
 # ICS4U-Culminating
-Raycast rendered FPS built with Java and Processing
+A first person maze navigation game built with Java and Processing.
+
+Gameplay: https://www.youtube.com/watch?v=srRdGsZwh-Q
