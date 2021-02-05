@@ -130,7 +130,7 @@ class Level
         for(float i = -p.fov/2; i <= p.fov/2; i+=0.5)
         {
             column_number++;
-            int magic_number = 0;
+            int horint_contextual_offset = 0;
             float distance_to_wall = 0;
             float absolute_ray_angle = p.rotation + i;
             absolute_ray_angle = (absolute_ray_angle < 0) ? 360 + absolute_ray_angle : absolute_ray_angle;
@@ -157,7 +157,7 @@ class Level
                     // Upper delta
                     initial_horint_delta_y = (float)Math.abs(Math.floor(p.y_pos / cell_size) * cell_size - p.y_pos);
 
-                    magic_number = -1;
+                    horint_contextual_offset = -1;
                 }
                 else if(ray_y_sign < 0)
                 {
@@ -168,7 +168,7 @@ class Level
                     // Lower delta 
                     initial_horint_delta_y = (float)Math.abs((Math.floor(p.y_pos / cell_size) + 1) * cell_size - p.y_pos);
 
-                    magic_number = 0;
+                    horint_contextual_offset = 0;
                 }
 
                 // Right delta 
@@ -186,7 +186,7 @@ class Level
                     // Upper delta
                     initial_horint_delta_y = (float)Math.abs(Math.floor(p.y_pos / cell_size) * cell_size - p.y_pos);
 
-                    magic_number = -1;
+                    horint_contextual_offset = -1;
                 }
                 else if(ray_y_sign < 0)
                 {
@@ -197,7 +197,7 @@ class Level
                     // Lower delta
                     initial_horint_delta_y = (float)Math.abs((Math.floor(p.y_pos / cell_size) + 1) * cell_size - p.y_pos);
 
-                    magic_number = 0;
+                    horint_contextual_offset = 0;
                 }
 
                 // Left delta
@@ -237,7 +237,7 @@ class Level
                 verint_delta_x *= ray_x_sign;
                 verint_delta_y *= -ray_y_sign;
 
-                int horint_id_y = (int)Math.floor((p.y_pos + horint_delta_y) / cell_size + magic_number) * map_width;
+                int horint_id_y = (int)Math.floor((p.y_pos + horint_delta_y) / cell_size + horint_contextual_offset) * map_width;
                 int horint_id_x = (int)Math.floor((p.x_pos + horint_delta_x) / cell_size);
                 int horint_id = (horint_id_x >= 0 && horint_id_x < map_width && horint_id_y >= 0 && horint_id_y < map_area) ? map[horint_id_y + horint_id_x] : 0;
 
