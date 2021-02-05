@@ -189,11 +189,6 @@ void draw()
             float right_y_move = (float)Math.sin(Math.toRadians(lev1.p.rotation+90)) * lev1.p.move_right;
             lev1.player_movement_collision(forward_x_move + right_x_move, forward_y_move + right_y_move);
 
-            /*lev1.p.x_pos += (float)Math.cos(Math.toRadians(lev1.p.rotation)) * lev1.p.move_forward;
-            lev1.p.y_pos -= (float)Math.sin(Math.toRadians(lev1.p.rotation)) * lev1.p.move_forward;
-            lev1.p.x_pos += (float)Math.cos(Math.toRadians(lev1.p.rotation+90)) * lev1.p.move_right;
-            lev1.p.y_pos -= (float)Math.sin(Math.toRadians(lev1.p.rotation+90)) * lev1.p.move_right;*/
-
             int map_id_x = (int)(lev1.p.x_pos / lev1.cell_size);
             int map_id_y = (int)(lev1.p.y_pos / lev1.cell_size);
             if(lev1.map[map_id_x + map_id_y * lev1.map_width] == 2)
@@ -201,7 +196,7 @@ void draw()
                 game.set_game_state(Game_States.GAME_OVER);
                 if(score < best_score)
                 {
-                    game_over_message = "NEW HIGH SCORE!";
+                    game_over_message = "NEW BEST SCORE!";
                     best_score = score;
                 }
             }
