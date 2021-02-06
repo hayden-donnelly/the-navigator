@@ -3,7 +3,7 @@ A first person maze navigation game built with Java and Processing.
 
 Gameplay: https://www.youtube.com/watch?v=srRdGsZwh-Q
 
-##Screenshots
+## Screenshots
 ![s4](https://user-images.githubusercontent.com/30982485/107132110-3d78fb80-68aa-11eb-93da-f5ab3cd49b8a.gif)
 ![s2](https://user-images.githubusercontent.com/30982485/107132108-3ce06500-68aa-11eb-9d7c-8b0ca6e87ba5.png)
 ![s3](https://user-images.githubusercontent.com/30982485/107132109-3ce06500-68aa-11eb-80f8-1aa034ecaee0.png)
