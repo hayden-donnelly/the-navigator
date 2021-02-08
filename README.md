@@ -1,5 +1,5 @@
 ## About
-The Navigator is a first person maze navigation game built with Java and Processing. In order to achieve pseudo 3D visuals, I used a raycast algorithm similar to the one in Wolfenstein 3D.
+The Navigator is a first person maze navigation game built with Java and Processing. In order to achieve pseudo 3D visuals, I used a raycast algorithm similar to the one found in Wolfenstein 3D.
 
 Gameplay: https://www.youtube.com/watch?v=srRdGsZwh-Q
 
