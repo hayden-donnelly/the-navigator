@@ -6,8 +6,6 @@ Gameplay: https://www.youtube.com/watch?v=srRdGsZwh-Q
 
 ## Rendering Algorithm
 
-If anybody reads this before I edit it: I was severly sleep deprived when I wrote this and there are probably a bunch of spelling mistakes I need to fix.
-
 As mentioned, the render algorithm is similar to the one found in Wolfenstien 3D. It uses raycasts to detect walls on a 2D map and then
 draws thin vertical rectangles on the screen proportional to each ray's length. A constant number of rays are cast for each degree of 
 the player's field of view. I chose two rays per degree for aesthetic reasons.
