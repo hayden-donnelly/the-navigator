@@ -14,13 +14,13 @@ the player's field of view. I chose two rays per degree for aesthetic reasons.
 
 The 2D map is broken up into a grid with walls occupying entire grid cells. Consequently, points of intersection between rays and walls can
 be found by checking if a grid cell contains a wall whenever a ray crosses into it. This process is optimized by finding the vertical grid
-line which is adjacent to the player in a ray's direction, calculating the y-component (y<sub>v</sub>) of the ray at that line's x-coordinate (x<sub>v</sub>), 
+line which is adjacent to the player in a ray's direction, calculating the y-component (*y<sub>v</sub>*) of the ray at that line's x-coordinate (*x<sub>v</sub>*), 
 checking if a wall occupies the cell that \[*x<sub>v</sub> y<sub>v</sub>*] is pointing to (relative to the player's position), terminating if it does, and recurring for the next vertical line if it
 does not. 
 
 Betwen each recurrence of this process, a similar process for horizontal grid lines in the ray's direction is run. The main difference 
-being that it calculates the x-component (x<sub>h</sub>) of the ray at a horizontal line's y-coordinate (y<sub>h</sub>), and then checks 
-the cell that \[x<sub>h</sub> y<sub>h</sub>] is pointing to (again, relative to the player's position). These two processes will each return
+being that it calculates the x-component (*x<sub>h</sub>*) of the ray at a horizontal line's y-coordinate (*y<sub>h</sub>*), and then checks 
+the cell that \[*x<sub>h</sub> y<sub>h</sub>*] is pointing to (again, relative to the player's position). These two processes will each return
 a different vector. Whichever one is shorter will be used to calculate the distance to the wall from the player at the given angle.
 
 ## Screenshots
