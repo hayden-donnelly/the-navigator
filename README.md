@@ -18,14 +18,14 @@ line which is adjacent to the player in a ray's direction, calculating the y-com
 checking if a wall occupies the cell that \[*x<sub>v</sub> y<sub>v</sub>*] is pointing to (relative to the player's position), terminating if it does, and recurring for the next vertical line if it
 does not. 
 
-![IMG_0773](https://user-images.githubusercontent.com/30982485/172924807-9c8078c3-bbe7-4d76-b93a-cbd8f26814f7.jpg)
+![IMG_0772](https://user-images.githubusercontent.com/30982485/172924810-16fe8d09-7311-4994-9c1c-a5e9ce63b2f4.jpg)
 
 Betwen each recurrence of this process, a similar process for horizontal grid lines in the ray's direction is run. The main difference 
 being that it calculates the x-component (*x<sub>h</sub>*) of the ray at a horizontal line's y-coordinate (*y<sub>h</sub>*), and then checks 
 the cell that \[*x<sub>h</sub> y<sub>h</sub>*] is pointing to (again, relative to the player's position). These two processes will each return 
 a different vector. Whichever one is shorter will be used to calculate the distance to the wall from the player at the given angle.
 
-![IMG_0772](https://user-images.githubusercontent.com/30982485/172924810-16fe8d09-7311-4994-9c1c-a5e9ce63b2f4.jpg)
+![IMG_0773](https://user-images.githubusercontent.com/30982485/172924807-9c8078c3-bbe7-4d76-b93a-cbd8f26814f7.jpg)
 
 ## Screenshots
 ![s2](https://user-images.githubusercontent.com/30982485/107132108-3ce06500-68aa-11eb-9d7c-8b0ca6e87ba5.png)
