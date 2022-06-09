@@ -18,7 +18,7 @@ does not.
 
 Betwen each recurrence of this process, a similar process for horizontal grid lines in the ray's direction is run. The main difference 
 being that it calculates the x-component (x<sub>h</sub>) of the ray at a horizontal line's y-coordinate (y<sub>h</sub>), and then checks 
-the cell that \[x<sub>h</sub> y<sub>h</sub>] is pointing to (again, relative to the player's position. These two processes will each return
+the cell that \[x<sub>h</sub> y<sub>h</sub>] is pointing to (again, relative to the player's position). These two processes will each return
 a different vector. Whichever one is shorter will be used to calculate the distance to the wall from the player at the given angle.
 
 ## Screenshots
