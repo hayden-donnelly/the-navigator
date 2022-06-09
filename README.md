@@ -22,10 +22,11 @@ does not.
 
 Betwen each recurrence of this process, a similar process for horizontal grid lines in the ray's direction is run. The main difference 
 being that it calculates the x-component (*x<sub>h</sub>*) of the ray at a horizontal line's y-coordinate (*y<sub>h</sub>*), and then checks 
-the cell that \[*x<sub>h</sub> y<sub>h</sub>*] is pointing to (again, relative to the player's position). These two processes will each return
-a different vector. Whichever one is shorter will be used to calculate the distance to the wall from the player at the given angle.
+the cell that \[*x<sub>h</sub> y<sub>h</sub>*] is pointing to (again, relative to the player's position).
 
 ![IMG_0772](https://user-images.githubusercontent.com/30982485/172924810-16fe8d09-7311-4994-9c1c-a5e9ce63b2f4.jpg)
+
+These two processes will each return a different vector. Whichever one is shorter will be used to calculate the distance to the wall from the player at the given angle.
 
 ## Screenshots
 ![s2](https://user-images.githubusercontent.com/30982485/107132108-3ce06500-68aa-11eb-9d7c-8b0ca6e87ba5.png)
