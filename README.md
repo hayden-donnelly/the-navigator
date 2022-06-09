@@ -17,6 +17,8 @@ line which is adjacent to the player in a ray's direction, calculating the y-com
 checking if a wall occupies the cell that \[x<sub>v</sub> y<sub>v</sub>] is pointing to, terminating if it does, and recurring for the next vertical line if it
 does not. Betwen each recurrence of this process, a similar process for horizontal gird lines in the ray's direction is run. The main difference being that it calculates the x-component (x<sub>h</sub>) of the reay at a horizontal line's y-coordinate (y<sub>h</sub>), and then checks the cell that \[x<sub>h</sub> y<sub>h</sub>] is pointing to.
 
+Each of these processes will return a different vector, but only the shorter of the two is used to calculate the wall from the player at the given angle.
+
 ## Screenshots
 ![s2](https://user-images.githubusercontent.com/30982485/107132108-3ce06500-68aa-11eb-9d7c-8b0ca6e87ba5.png)
 ![s3](https://user-images.githubusercontent.com/30982485/107132109-3ce06500-68aa-11eb-80f8-1aa034ecaee0.png)
