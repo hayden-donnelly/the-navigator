@@ -1,8 +1,6 @@
 ## About
-The Navigator is a first person maze navigation game built with Java and Processing. You must navigate a procedurally generated maze and 
+The Navigator is my ICS4U culminating project; a first person maze navigation game built with Java and Processing. You must navigate a procedurally generated maze and 
 reach the exit as quickly as you can. I used a raycast rendering algorithm similar to the one found in Wolfenstein 3D to achieve pseudo-3D visuals.
-
-This is my ICS4U culminating project.
 
 Gameplay: https://www.youtube.com/watch?v=srRdGsZwh-Q
 
