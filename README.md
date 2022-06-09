@@ -14,8 +14,8 @@ the player's field of view. I chose two rays per degree for aesthetic reasons.
 The 2D map is broken up into a grid with walls occupying entire grid cells. Consequently, points of itnersection between rays and walls can
 be found by checking if a grid cell contains a wall whenever a ray crosses into it. This process is optimized by finding the vertical grid
 line which is adjacent to the player in a ray's direction, calculating the y-component (y<sub>v</sub>) of the ray at that line's x-coordinate (x<sub>v</sub>), 
-checking if a wall occupies the cell that \[x<sub>v</sub>, y<sub>v</sub>] is pointing to, terminating if it does, and recurring for the next vertical line if it
-does not. Betwen each recurrence of this process, a similar process for horizontal gird lines in the ray's direction is run. The main difference being that it calculates the x-component (x<sub>h</sub>) of the reay at a horizontal line's y-coordinate (y<sub>h</sub>), and then checks the cell that \[x<sub>h</sub>, y<sub>h</sub>] is pointing to.
+checking if a wall occupies the cell that \[x<sub>v</sub> y<sub>v</sub>] is pointing to, terminating if it does, and recurring for the next vertical line if it
+does not. Betwen each recurrence of this process, a similar process for horizontal gird lines in the ray's direction is run. The main difference being that it calculates the x-component (x<sub>h</sub>) of the reay at a horizontal line's y-coordinate (y<sub>h</sub>), and then checks the cell that \[x<sub>h</sub> y<sub>h</sub>] is pointing to.
 
 ## Screenshots
 ![s2](https://user-images.githubusercontent.com/30982485/107132108-3ce06500-68aa-11eb-9d7c-8b0ca6e87ba5.png)
