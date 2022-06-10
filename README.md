@@ -18,7 +18,7 @@ does not.
 
 ![IMG_0772](https://user-images.githubusercontent.com/30982485/172924810-16fe8d09-7311-4994-9c1c-a5e9ce63b2f4.jpg)
 
-Betwen each recurrence of this process, a similar process for horizontal grid lines in the ray's direction is run. The main difference 
+Between each recurrence of this process, a similar process for horizontal grid lines in the ray's direction is run. The main difference 
 being that it calculates the x-component (*x<sub>h</sub>*) of the ray at a horizontal line's y-coordinate (*y<sub>h</sub>*), and then checks 
 the cell that \[*x<sub>h</sub> y<sub>h</sub>*] is pointing to (again, relative to the player's position). These two processes will each return 
 a different vector. Whichever one is shorter will be used to calculate the distance to the wall from the player at the given angle.
@@ -26,7 +26,7 @@ a different vector. Whichever one is shorter will be used to calculate the dista
 ![IMG_0773](https://user-images.githubusercontent.com/30982485/172924807-9c8078c3-bbe7-4d76-b93a-cbd8f26814f7.jpg)
 
 After an intersection vector has been determined, it is projected onto the direction the player is looking. Then the height of the correpsonding
-rectangle is calculated as a function the resulting vector's magnitude. This prevents the final render from developing
+rectangle is calculated as a function of the resulting vector's magnitude. This prevents the final render from developing
 a fisheye effect.
 
 ## Screenshots
