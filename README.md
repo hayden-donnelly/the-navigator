@@ -8,7 +8,7 @@ Gameplay: https://www.youtube.com/watch?v=srRdGsZwh-Q
 
 As mentioned, the render algorithm is similar to the one found in Wolfenstien 3D. It uses raycasts to detect walls on a 2D map and then
 draws thin vertical rectangles on the screen proportional to each ray's length. A constant number of rays are cast for each degree of 
-the player's field of view. I chose two rays per degree for aesthetic reasons.
+the player's field of view. I chose two rays per degree (or one ray per 0.5 degrees) for aesthetic reasons.
 
 The 2D map is broken up into a grid with walls occupying entire grid cells. Consequently, points of intersection between rays and walls can
 be found by checking if a grid cell contains a wall whenever a ray crosses into it. This process is optimized by finding the vertical grid
@@ -25,7 +25,8 @@ a different vector. Whichever one is shorter will be used to calculate the dista
 
 ![IMG_0773](https://user-images.githubusercontent.com/30982485/172924807-9c8078c3-bbe7-4d76-b93a-cbd8f26814f7.jpg)
 
-After an intersection vector has been determine, it is projected onto the direction the player is looking. This prevents the final render from developing
+After an intersection vector has been determined, it is projected onto the direction the player is looking, and the height of the correpsonding
+rectangle is calculated as a function the resulting vector's magnitude. This prevents the final render from developing
 a fisheye effect.
 
 ## Screenshots
