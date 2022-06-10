@@ -25,6 +25,9 @@ a different vector. Whichever one is shorter will be used to calculate the dista
 
 ![IMG_0773](https://user-images.githubusercontent.com/30982485/172924807-9c8078c3-bbe7-4d76-b93a-cbd8f26814f7.jpg)
 
+After an intersection vector has been determine, it is projected onto the direction the player is looking. This prevents the final render from developing
+a fisheye effect.
+
 ## Screenshots
 ![s2](https://user-images.githubusercontent.com/30982485/107132108-3ce06500-68aa-11eb-9d7c-8b0ca6e87ba5.png)
 ![s3](https://user-images.githubusercontent.com/30982485/107132109-3ce06500-68aa-11eb-80f8-1aa034ecaee0.png)
