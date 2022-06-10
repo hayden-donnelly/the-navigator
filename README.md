@@ -6,7 +6,7 @@ Gameplay: https://www.youtube.com/watch?v=srRdGsZwh-Q
 
 ## Rendering Algorithm
 
-As mentioned, the rendering algorithm is similar to the one found in Wolfenstien 3D. It uses raycasts to detect walls on a 2D map and then
+As mentioned, the rendering algorithm is similar to the one found in Wolfenstein 3D. It uses raycasts to detect walls on a 2D map and then
 draws thin vertical rectangles on the screen proportional to each ray's length. A constant number of rays are cast for each degree of 
 the player's field of view. I chose two rays per degree (or one ray per 0.5 degrees) for aesthetic reasons.
 
