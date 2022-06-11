@@ -25,7 +25,7 @@ a different vector. Whichever one is shorter will be used to calculate the dista
 
 ![IMG_0773](https://user-images.githubusercontent.com/30982485/172924807-9c8078c3-bbe7-4d76-b93a-cbd8f26814f7.jpg)
 
-After an intersection vector has been determined, it is projected onto the direction the player is looking. Then the height of the correpsonding
+After an intersection vector has been determined, it is projected onto the direction the player is looking. Then the height of the corresponding
 rectangle is calculated as a function of the resulting vector's magnitude. This prevents the final render from developing
 a fisheye effect.
 
