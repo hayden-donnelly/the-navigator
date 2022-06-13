@@ -23,7 +23,7 @@ being that it calculates the x-component (*x<sub>h</sub>*) of the ray at a horiz
 the cell that \[*x<sub>h</sub> y<sub>h</sub>*] is pointing to (again, relative to the player's position). These two processes will each return 
 a different vector. Whichever one is shorter will be used to calculate the distance to the wall from the player at the given angle.
 
-![IMG_0773](https://user-images.githubusercontent.com/30982485/172924807-9c8078c3-bbe7-4d76-b93a-cbd8f26814f7.jpg)
+![IMG_0792](https://user-images.githubusercontent.com/30982485/173289092-48fec7dc-f434-4585-a8a0-daf2a4045e8d.jpg)
 
 After an intersection vector has been determined, it is projected onto the direction the player is looking. Then the height of the corresponding
 rectangle is calculated as a function of the resulting vector's magnitude. This prevents the final render from developing
