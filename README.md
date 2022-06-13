@@ -16,7 +16,7 @@ line which is adjacent to the player in a ray's direction, calculating the y-com
 checking if a wall occupies the cell that \[*x<sub>v</sub> y<sub>v</sub>*] is pointing to (relative to the player's position), terminating if it does, and recurring for the next vertical line if it
 does not. 
 
-![IMG_0789](https://user-images.githubusercontent.com/30982485/173287804-756ef378-7f8c-4cc3-bdb0-ef60e2ad2e79.jpg)
+![IMG_0790](https://user-images.githubusercontent.com/30982485/173288359-d456862a-c33d-4bab-91f6-9ca665022ecb.jpg)
 
 Between each recurrence of this process, a similar process for horizontal grid lines in the ray's direction is run. The main difference 
 being that it calculates the x-component (*x<sub>h</sub>*) of the ray at a horizontal line's y-coordinate (*y<sub>h</sub>*), and then checks 
