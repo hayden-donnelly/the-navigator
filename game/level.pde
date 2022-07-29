@@ -290,6 +290,33 @@ class Level
         return column_buffer;
     }
 
+    // Checks if player has enterd the turqious portal which id denoted by a 2
+    Bool check_if_player_has_won()
+    {
+        int map_id_x = (int)(lev1.p.x_pos / lev1.cell_size);
+        int map_id_y = (int)(lev1.p.y_pos / lev1.cell_size);
+        if(lev1.map[map_id_x + map_id_y * lev1.map_width] == 2)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    void player_rotation()
+    {
+        p.rotation += p.rot_dir;
+        p.rotation = (p.rotation > 360) ? p.rotation - 360 : p.rotation;
+    }
+
+    void player_movement()
+    {
+        float forward_x_move = (float)Math.cos(Math.toRadians(p.rotation)) * p.move_forward;
+        float forward_y_move = (float)Math.sin(Math.toRadians(p.rotation)) * p.move_forward;
+        float right_x_move = (float)Math.cos(Math.toRadians(p.rotation+90)) * p.move_right;
+        float right_y_move = (float)Math.sin(Math.toRadians(p.rotation+90)) * p.move_right;
+        player_movement_collision(forward_x_move + right_x_move, forward_y_move + right_y_move);
+    }
+
     // Modifies movement vector so the player can never clip through walls
     void player_movement_collision(float move_x, float move_y)
     {
@@ -308,4 +335,3 @@ class Level
     }
 
 }
-Level lev1;
