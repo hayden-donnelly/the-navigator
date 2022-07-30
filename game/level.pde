@@ -278,11 +278,11 @@ class Level
             new_column.distance = distance_to_wall;
             if(final_id == 1)
             {
-                new_column.clr = pal1.c3;
+                new_column.clr = palette.c3;
             }
             else
             {
-                new_column.clr = pal1.c5;
+                new_column.clr = palette.c5;
             }
             column_buffer.add(new_column);
         }
@@ -293,9 +293,9 @@ class Level
     // Checks if player has enterd the turqious portal which id denoted by a 2
     boolean player_has_reached_portal()
     {
-        int map_id_x = (int)(lev1.p.x_pos / lev1.cell_size);
-        int map_id_y = (int)(lev1.p.y_pos / lev1.cell_size);
-        if(lev1.map[map_id_x + map_id_y * lev1.map_width] == 2)
+        int map_id_x = (int)(p.x_pos / cell_size);
+        int map_id_y = (int)(p.y_pos / cell_size);
+        if(lev1.map[map_id_x + map_id_y * map_width] == 2)
         {
             return true;
         }
