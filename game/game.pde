@@ -7,7 +7,7 @@ void setup()
 {
     size(1280, 720);
     rectMode(CENTER);
-    
+
     level = new Level();
     game = new Game_Manager();
     game.set_game_state(Game_States.MAIN_MENU);
@@ -55,15 +55,15 @@ void mousePressed()
     switch(game.current_game_state)
     {
         case MAIN_MENU:
-            ui.update_buttons(main_menu_buttons);
+            ui.update_buttons(ui.main_menu_buttons);
             break;
         case HOW_TO_PLAY:
-            ui.update_buttons(how_to_play_buttons);
+            ui.update_buttons(ui.how_to_play_buttons);
             break;
         case GAME_OVER:
             level = new Level();
             game.reset_game();
-            ui.update_buttons(game_over_buttons);
+            ui.update_buttons(ui.game_over_buttons);
             break;
     } 
 }
