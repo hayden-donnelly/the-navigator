@@ -291,7 +291,7 @@ class Level
     }
 
     // Checks if player has enterd the turqious portal which id denoted by a 2
-    Bool player_has_reached_portal()
+    boolean player_has_reached_portal()
     {
         int map_id_x = (int)(lev1.p.x_pos / lev1.cell_size);
         int map_id_y = (int)(lev1.p.y_pos / lev1.cell_size);
@@ -333,5 +333,4 @@ class Level
             p.y_pos -= move_y;
         }
     }
-
 }
