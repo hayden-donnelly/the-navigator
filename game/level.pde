@@ -295,7 +295,7 @@ class Level
     {
         int map_id_x = (int)(p.x_pos / cell_size);
         int map_id_y = (int)(p.y_pos / cell_size);
-        if(lev1.map[map_id_x + map_id_y * map_width] == 2)
+        if(map[map_id_x + map_id_y * map_width] == 2)
         {
             return true;
         }
