@@ -103,8 +103,8 @@ class Level
         ArrayList<Renderable> map_buffer = render_map_to_buffer();
 
         noStroke();
-        background(pal1.c1);
-        fill(pal1.c2);
+        background(palette.c1);
+        fill(palette.c2);
         rect(640, 540, 1280, 360);
 
         // Draw buffer
