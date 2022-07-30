@@ -6,10 +6,10 @@ class UI
     PFont title_font;
     PFont score_font;
 
-    UI(Color_Palette palette)
+    UI(Color_Palette ui_palette)
     {
-        color ui_bg_color = color(this.palette.c1);
-        color ui_text_color = color(this.palette.c4);
+        color ui_bg_color = color(ui_palette.c1);
+        color ui_text_color = color(ui_palette.c4);
 
         main_menu_buttons = new Button[2];
         main_menu_buttons[0] = new Button("Play", 640, 200, 300, 50, "conthrax-sb.ttf", 23, ui_bg_color, ui_text_color, Game_States.IN_GAME);
