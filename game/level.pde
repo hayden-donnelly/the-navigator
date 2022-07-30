@@ -103,8 +103,8 @@ class Level
         ArrayList<Renderable> map_buffer = render_map_to_buffer();
 
         noStroke();
-        background(pal1.c1);
-        fill(pal1.c2);
+        background(palette.c1);
+        fill(palette.c2);
         rect(640, 540, 1280, 360);
 
         // Draw buffer
@@ -278,16 +278,43 @@ class Level
             new_column.distance = distance_to_wall;
             if(final_id == 1)
             {
-                new_column.clr = pal1.c3;
+                new_column.clr = palette.c3;
             }
             else
             {
-                new_column.clr = pal1.c5;
+                new_column.clr = palette.c5;
             }
             column_buffer.add(new_column);
         }
 
         return column_buffer;
+    }
+
+    // Checks if player has enterd the turqious portal which id denoted by a 2
+    boolean player_has_reached_portal()
+    {
+        int map_id_x = (int)(p.x_pos / cell_size);
+        int map_id_y = (int)(p.y_pos / cell_size);
+        if(map[map_id_x + map_id_y * map_width] == 2)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    void player_rotation()
+    {
+        p.rotation += p.rot_dir;
+        p.rotation = (p.rotation > 360) ? p.rotation - 360 : p.rotation;
+    }
+
+    void player_movement()
+    {
+        float forward_x_move = (float)Math.cos(Math.toRadians(p.rotation)) * p.move_forward;
+        float forward_y_move = (float)Math.sin(Math.toRadians(p.rotation)) * p.move_forward;
+        float right_x_move = (float)Math.cos(Math.toRadians(p.rotation+90)) * p.move_right;
+        float right_y_move = (float)Math.sin(Math.toRadians(p.rotation+90)) * p.move_right;
+        player_movement_collision(forward_x_move + right_x_move, forward_y_move + right_y_move);
     }
 
     // Modifies movement vector so the player can never clip through walls
@@ -306,6 +333,4 @@ class Level
             p.y_pos -= move_y;
         }
     }
-
 }
-Level lev1;
