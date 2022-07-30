@@ -39,6 +39,22 @@ class Game_Manager
         }
     }
 
+    void reset_game()
+    {
+        score = 0;
+        game_over_message = "";
+    }
+
+    void game_over()
+    {
+        set_game_state(Game_States.GAME_OVER);
+        if(game.score < game.best_score)
+        {
+            game_over_message = "NEW BEST SCORE!";
+            best_score = score;
+        }
+    }
+
     // Sets new game state
     void set_game_state(Game_States gs)
     {
@@ -50,27 +66,5 @@ class Game_Manager
     void set_previous_game_state()
     {
         current_game_state = previous_game_state;
-    }
-
-    void render_ui(Button[] button_arr)
-    {
-        rectMode(CENTER);
-        textAlign(CENTER, CENTER);
-        for(int i = 0; i < button_arr.length; i++)
-        {
-            button_arr[i].render_button();
-        }
-    }
-
-    // Checks if any button within a group of buttons has been pressed and sets game state accordingly
-    void update_ui(Button[] button_arr)
-    {
-        for(int i = 0; i < button_arr.length; i++)
-        {
-            if(button_arr[i].check_click())
-            {
-                return;
-            }
-        }
     }
 }
