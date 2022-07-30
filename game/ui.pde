@@ -79,7 +79,7 @@ class UI
         render_buttons(how_to_play_buttons);
     }
 
-    void render_game_over_menu(String game_over_message)
+    void render_game_over_menu(String game_over_message, int score)
     {
         background(palette.c1);
         fill(palette.c4);
