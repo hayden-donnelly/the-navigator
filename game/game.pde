@@ -45,7 +45,7 @@ void draw()
             ui.render_how_to_play_menu();
             break;
         case GAME_OVER:
-            ui.render_game_over_menu(game.game_over_message);
+            ui.render_game_over_menu(game.game_over_message, game.score);
             break;
     }
 }
