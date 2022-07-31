@@ -290,7 +290,7 @@ class Level
         return column_buffer;
     }
 
-    // Checks if player has enterd the turqious portal which id denoted by a 2
+    // Checks if player has entered the turqouise portal denoted by a 2
     boolean player_has_reached_portal()
     {
         int map_id_x = (int)(p.x_pos / cell_size);
